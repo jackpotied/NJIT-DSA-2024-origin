@@ -1,4 +1,4 @@
-# Algorithm correctness - and simple slow sorting
+  # Algorithm correctness - and simple slow sorting
 
 Tietorakenteet ja algoritmit | Data structures and algorithms.
 

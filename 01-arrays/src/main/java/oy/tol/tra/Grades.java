@@ -4,7 +4,7 @@ package oy.tol.tra;
  * A simple array of student grades to be used in testing
  * misbehaving algorithm for reversing the array.
  */
-public class Grades {
+public class       Grades {
    
    private Integer [] grades = null;
 
