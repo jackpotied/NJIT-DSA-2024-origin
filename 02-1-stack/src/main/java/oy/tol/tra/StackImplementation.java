@@ -34,11 +34,11 @@ public class StackImplementation<E> implements StackInterface<E> {
     * @throws StackAllocationException If cannot allocate room for the internal array.
     */
    public StackImplementation(int capacity) throws StackAllocationException {
-      this.capacity=DEFAULT_STACK_SIZE;
-      this.currentIndex=-1;
-      if(this.capacity<=0){
-         throw new StackAllocationException("小于1格，你这玩意还是堆栈吗");
+      if(capacity<2){
+         throw new StackAllocationException("");
       }
+      this.capacity=capacity;
+      this.currentIndex=-1;
       itemArray=new Object[this.capacity];
    }
 
