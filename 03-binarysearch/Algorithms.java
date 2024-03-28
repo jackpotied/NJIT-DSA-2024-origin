@@ -3,9 +3,9 @@ package oy.tol.tra;
 public class Algorithms {
     public static <T> void swap(T[]array,int a,int b){
         T temp;
-       temp=array[a];
-       array[a]=array[b];
-       array[b]=temp;
+        temp=array[a];
+        array[a]=array[b];
+        array[b]=temp;
     }
     public static <T extends Comparable<T>> void sort(T [] array) {
         for(int i=0;i<array.length-1;i++){
@@ -21,9 +21,9 @@ public class Algorithms {
 
 
     public static <T> void reverse(T [] array) {
-            for(int i=0;i<=array.length/2-1;i++){
-                swap(array,i, array.length-i-1);
-            }
+        for(int i=0;i<=array.length/2-1;i++){
+            swap(array,i, array.length-i-1);
+        }
     }
     public static <T extends Comparable<T>> int binarySearch(T aValue, T [] fromArray, int fromIndex, int toIndex) {
         if(fromIndex==toIndex){
@@ -55,23 +55,23 @@ public class Algorithms {
         quickSort(array,flag+1,end);
     }
     private static <E extends Comparable<E>> int partition(E [] array, int begin, int end) {
-       E flag =array[begin];
-       int i=begin;int j=end;
-       while(true){
-           while(array[i].compareTo(flag)<0){
-                    i++;
-           }
-           while (array[j].compareTo(flag)>0){
-                    j--;
-           }
-           if(i<j){
-               swap(array,i,j);
-           }else{
+        E flag =array[begin];
+        int i=begin;int j=end;
+        while(true){
+            while(array[i].compareTo(flag)<0){
+                i++;
+            }
+            while (array[j].compareTo(flag)>0){
+                j--;
+            }
+            if(i<j){
+                swap(array,i,j);
+            }else{
                 return i;
-           }
+            }
 
 
-       }
+        }
     }
 
 
