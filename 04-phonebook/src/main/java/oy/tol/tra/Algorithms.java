@@ -1,5 +1,5 @@
 package oy.tol.tra;
-
+import java.util.Comparator;
 public class Algorithms {
     public static <T> void swap(T[]array,int a,int b){
         T temp;
@@ -75,5 +75,14 @@ public class Algorithms {
     }
 
 
+    public static<E> void sortWithComparator(E[] array, Comparator<E> comparator) {
+        for(int i=0;i<array.length-1;i++){
+            for(int j=0;j< array.length-i-1;j++){
+                if(comparator.compare(array[j],array[j+1])>0){
+                    swap(array,j,j+1);
+                }
+            }
+        }
 
+    }
 }
