@@ -72,7 +72,6 @@ public class KeyValueHashTable<K extends Comparable<K>, V> implements Dictionary
 
     @Override
     public boolean add(K key, V value) throws IllegalArgumentException, OutOfMemoryError {
-        // TODO: Implement this.
         // Remeber to check for null values.
         if(key == null||value == null){
             throw new IllegalArgumentException("   ");
@@ -83,28 +82,28 @@ public class KeyValueHashTable<K extends Comparable<K>, V> implements Dictionary
         }
         // Remember to get the hash key from the Person,
         int hashCode = key.hashCode();
-        for(int i = 0;i <= count;i++){
-            // hash table computes the index for the Person (based on the hash value),
-            int index = hash(hashCode);
-            // if index was taken by different Person (collision), get new hash and index,
-            // insert into table when the index has a null in it,
+        // hash table computes the index for the Person (based on the hash value),
+        int index = hash(hashCode);
+        // if index was taken by different Person (collision), get new hash and index,
+        // insert into table when the index has a null in it,
+        while(true){
             if(values[index] == null){
                 values[index] = new Pair<K,V>(key,value);
                 count++;
                 return true;
-            }else{
-                if(key.equals(values[index].getKey())){
+            }else {
+                if (key.equals(values[index].getKey())) {
                     values[index].setValue(value);
-                    count++;
                     return true;
-                }else{
+                } else {
+                    index++;
+                    if(index >= values.length){
+                        index = 0;
+                    }
                     collisionCount++;
-                    hashCode *= index;
                 }
             }
         }
-        // return true if existing Person updated or new Person inserted.
-        return false;
     }
 
     @Override
@@ -114,16 +113,24 @@ public class KeyValueHashTable<K extends Comparable<K>, V> implements Dictionary
             throw new IllegalArgumentException("   ");
         }
         int hashCode = key.hashCode();
-        for(int i = 0;i <= count;i++){
-            int index = hash(hashCode);
-            if(values[index] == null){
-                hashCode *= index;
+        int index = hash(hashCode);
+        for(int i = index;i < values.length;i++){
+
+            if(values[i] != null){
+                if(key.equals(values[i].getKey())){
+                    maxProbingSteps = Math.max(maxProbingSteps, i-index);
+                    return values[i].getValue();
+                }
+            }
+        }
+        for(int i = 0;i <= index;i++){
+
+            if(values[i] == null){
+                return null;
             }else{
-                if(key.equals(values[index].getKey())){
-                    maxProbingSteps = Math.max(maxProbingSteps, i);
-                    return values[index].getValue();
-                }else{
-                    hashCode *= index;
+                if(key.equals(values[i].getKey())){
+                    maxProbingSteps = Math.max(maxProbingSteps, values.length + i - index);
+                    return values[i].getValue();
                 }
             }
         }
@@ -170,6 +177,6 @@ public class KeyValueHashTable<K extends Comparable<K>, V> implements Dictionary
 		    } 
     }
     private int hash(int hashCode){
-        return ((hashCode>>>16)^hashCode)%(values.length-1);
+        return Math.abs(hashCode%(values.length-1));
     }
 }

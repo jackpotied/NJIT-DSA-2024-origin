@@ -1,5 +1,7 @@
 package oy.tol.tra;
 
+import static java.lang.Math.max;
+
 public class KeyValueBSearchTree<K extends Comparable<K>, V> implements Dictionary<K, V> {
 
     // This is the BST implementation, KeyValueHashTable has the hash table
@@ -11,13 +13,12 @@ public class KeyValueBSearchTree<K extends Comparable<K>, V> implements Dictiona
 
     @Override
     public Type getType() {
-        return Type.NONE;
+        return Type.BST;
     }
 
     @Override
     public int size() {
-        // TODO: Implement this
-        return 0;
+        return count;
     }
 
     /**
@@ -36,7 +37,7 @@ public class KeyValueBSearchTree<K extends Comparable<K>, V> implements Dictiona
      */
     @Override
     public String getStatus() {
-        String toReturn = "Tree has max depth of " + maxTreeDepth + ".\n";
+        String toReturn = "Tree has max depth of " + figureMaxTreeDepth(root,0) + ".\n";
         toReturn += "Longest collision chain in a tree node is " + TreeNode.longestCollisionChain + "\n";
         TreeAnalyzerVisitor<K, V> visitor = new TreeAnalyzerVisitor<>();
         root.accept(visitor);
@@ -48,21 +49,44 @@ public class KeyValueBSearchTree<K extends Comparable<K>, V> implements Dictiona
 
     @Override
     public boolean add(K key, V value) throws IllegalArgumentException, OutOfMemoryError {
-        // TODO: Implement this
         // Remember null check.
+        if(key == null||value == null){
+            throw new IllegalArgumentException("   ");
+        }
         // If root is null, should go there.
-        
-            // update the root node. But it may have children
-            // so do not just replace it with this new node but set
-            // the keys and values for the already existing root.
-            
-        return false;
-    }
+        if(root == null){
+            root = new TreeNode<K,V>(key,value);
+            count++;
+            maxTreeDepth = 1;
+            return true;
+        }
 
+        if(root.insert(key,value,key.hashCode()) == 1){
+            count++;
+        }
+        return true;
+    }
+    int figureMaxTreeDepth(TreeNode node,int depth){
+        depth++;
+        if(node.left != null && node.right != null){
+            return Math.max(figureMaxTreeDepth(node.left,depth),figureMaxTreeDepth(node.right,depth));
+        }else if(node.left != null){
+            return figureMaxTreeDepth(node.left,depth);
+        }else if(node.right != null){
+            return figureMaxTreeDepth(node.right,depth);
+        }else{
+            return depth;
+        }
+    }
     @Override
     public V find(K key) throws IllegalArgumentException {
-        // TODO: Implement this. //Think about this
-        return (null);
+        if(key == null){
+            throw new IllegalArgumentException("   ");
+        }
+        if(root == null){
+            return null;
+        }
+        return root.find(key,key.hashCode());
     }
 
     @Override
